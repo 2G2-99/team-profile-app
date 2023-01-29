@@ -11,8 +11,10 @@ const outputPath = path.join(OUTPUT_DIR, 'team.html');
 const render = require('./src/page-template.js');
 
 // TODO: Write Code to gather information about the development team members, and render the HTML file.
+// * Array of employees info
+const employeesInfo = [];
 
-//* Array of questions for user
+// * Array of questions for user
 const questions = [
 	// Manager questions
 	{
@@ -110,11 +112,26 @@ const questions = [
 		name: `intern_school`,
 		message: 'Enter intern school',
 	},
+
+	// add more employees
+	{
+		type: 'confirm',
+		name: 'add_employee',
+		message: 'Do you want to add another employee?',
+		default: true,
+	},
 ];
 
 function init() {
-	inquirer
-		.prompt(questions)
-		.then(async data => console.log(JSON.stringify(data, null, ' ')));
+	inquirer.prompt(questions).then(data => {
+		employeesInfo.push(data);
+
+		if (data.add_employee) {
+			init();
+		} else {
+			console.log(JSON.stringify(data, null, ' '));
+		}
+	});
 }
 init();
+console.log(employeesInfo);
