@@ -11,6 +11,7 @@ const outputPath = path.join(OUTPUT_DIR, 'team.html');
 const render = require('./src/page-template.js');
 
 // TODO: Write Code to gather information about the development team members, and render the HTML file.
+// # Inquirer variables
 // * Array of employees info
 const employeesInfo = [];
 
@@ -118,31 +119,27 @@ const employeeQuestions = [
 	},
 ];
 
+// # Functions
+// * Inquires all over if add_more = true
 function inquireAgain() {
-	inquirer.prompt(employeeQuestions).then(data => {
-		employeesInfo.push(data);
+	inquirer.prompt(employeeQuestions).then(answers => {
+		employeesInfo.push(answers);
 
-		if (data.add_more) {
-			inquirer.prompt(employeeQuestions);
+		if (answers.add_more) {
+			inquireAgain();
 		} else {
-			console.log(JSON.stringify(data, null, ' '));
+			console.log(JSON.stringify(employeesInfo, null, ' '));
 		}
 	});
 }
 
-// function inquireManager() {
-// 	inquirer.prompt(managerQuestions).then(answers => {
-// 		console.log(JSON.stringify(answers, null, '  '));
-// 	});
-// }
-
+// * Initialize the inquirer prompts
 async function init() {
 	const inquireManager = await inquirer.prompt(managerQuestions);
-	console.log(JSON.stringify(inquireManager, null, ' '));
-	const addEmployees = await inquirer.prompt(employeeQuestions);
-	console.log(JSON.stringify(addEmployees, null, ' '));
-	console.log(employeesInfo);
+	employeesInfo.push(inquireManager);
 
 	inquireAgain();
 }
+
+// # Initialisation
 init();
