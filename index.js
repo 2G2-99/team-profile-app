@@ -15,7 +15,7 @@ const render = require('./src/page-template.js');
 const employeesInfo = [];
 
 // * Array of questions for user
-const questions = [
+const managerQuestions = [
 	// Manager questions
 	{
 		type: 'input',
@@ -46,12 +46,14 @@ const questions = [
 			const valid = !isNaN(parseFloat(answer));
 			return valid || 'Please enter a number';
 		},
-		filter: String,
+		filter: Number,
 	},
+];
 
+const employeeQuestions = [
 	// Role of employee
 	{
-		type: 'list',
+		type: 'rawlist',
 		name: 'role',
 		message: 'What is the role of the employee?',
 		choices: [
@@ -60,18 +62,7 @@ const questions = [
 			new inquirer.Separator(),
 			'Finish building the team',
 		],
-		default: 'Finish building the team',
-	},
-
-	// Exit inquirer
-	{
-		when(answer) {
-			return answer.role === 'Finish building the team';
-		},
-		type: 'confirm',
-		name: 'exit',
-		message: 'Do you want to exit the Team Builder App?',
-		default: 'n',
+		default: 3,
 	},
 
 	// Employee questions
@@ -84,6 +75,11 @@ const questions = [
 		type: 'input',
 		name: `employee_id`,
 		message: answer => `Enter ${answer.role} ID`,
+		validate(answer) {
+			const valid = !isNaN(parseFloat(answer));
+			return valid || 'Please enter a number';
+		},
+		filter: Number,
 	},
 	{
 		type: 'input',
@@ -93,8 +89,8 @@ const questions = [
 
 	// Engineer questions
 	{
-		when(inquire1) {
-			return inquire1.role === 'Engineer';
+		when(answer) {
+			return answer.role === 'Engineer';
 		},
 
 		type: 'input',
@@ -116,22 +112,37 @@ const questions = [
 	// add more employees
 	{
 		type: 'confirm',
-		name: 'add_employee',
+		name: `add_more`,
 		message: 'Do you want to add another employee?',
 		default: true,
 	},
 ];
 
-function init() {
-	inquirer.prompt(questions).then(data => {
+function inquireAgain() {
+	inquirer.prompt(employeeQuestions).then(data => {
 		employeesInfo.push(data);
 
-		if (data.add_employee) {
-			init();
+		if (data.add_more) {
+			inquirer.prompt(employeeQuestions);
 		} else {
 			console.log(JSON.stringify(data, null, ' '));
 		}
 	});
 }
+
+// function inquireManager() {
+// 	inquirer.prompt(managerQuestions).then(answers => {
+// 		console.log(JSON.stringify(answers, null, '  '));
+// 	});
+// }
+
+async function init() {
+	const inquireManager = await inquirer.prompt(managerQuestions);
+	console.log(JSON.stringify(inquireManager, null, ' '));
+	const addEmployees = await inquirer.prompt(employeeQuestions);
+	console.log(JSON.stringify(addEmployees, null, ' '));
+	console.log(employeesInfo);
+
+	inquireAgain();
+}
 init();
-console.log(employeesInfo);
