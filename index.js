@@ -51,8 +51,7 @@ const managerQuestions = [
 	},
 ];
 
-const employeeQuestions = [
-	// Role of employee
+const roleQuestion = [
 	{
 		type: 'rawlist',
 		name: 'role',
@@ -65,17 +64,18 @@ const employeeQuestions = [
 		],
 		default: 3,
 	},
+];
 
-	// Employee questions
+const engineerQuestions = [
 	{
 		type: 'input',
-		name: `employee_name`,
-		message: answer => `Enter name of the ${answer.role}`,
+		name: `name`,
+		message: `Enter name of the engineer`,
 	},
 	{
 		type: 'input',
-		name: `employee_id`,
-		message: answer => `Enter ${answer.role} ID`,
+		name: `id`,
+		message: `Enter engineer ID`,
 		validate(answer) {
 			const valid = !isNaN(parseFloat(answer));
 			return valid || 'Please enter a number';
@@ -84,61 +84,116 @@ const employeeQuestions = [
 	},
 	{
 		type: 'input',
-		name: `employee_email`,
-		message: answer => `Enter ${answer.role} Email address`,
+		name: `email`,
+		message: `Enter engineer Email address`,
 	},
-
-	// Engineer questions
 	{
-		when(answer) {
-			return answer.role === 'Engineer';
-		},
-
 		type: 'input',
-		name: `engineer_github`,
+		name: `github`,
 		message: 'Enter GitHub username',
 	},
-
-	// Intern questions
+];
+const internQuestions = [
 	{
-		when(answer) {
-			return answer.role === 'Intern';
-		},
-
 		type: 'input',
-		name: `intern_school`,
-		message: 'Enter intern school',
+		name: `name`,
+		message: `Enter name of the intern`,
+	},
+	{
+		type: 'input',
+		name: `id`,
+		message: `Enter intern ID`,
+		validate(answer) {
+			const valid = !isNaN(parseFloat(answer));
+			return valid || 'Please enter a number';
+		},
+		filter: Number,
+	},
+	{
+		type: 'input',
+		name: `email`,
+		message: `Enter intern Email address`,
 	},
 
-	// add more employees
 	{
-		type: 'confirm',
-		name: `add_more`,
-		message: 'Do you want to add another employee?',
-		default: true,
+		type: 'input',
+		name: `school`,
+		message: 'Enter intern school',
 	},
 ];
 
 // # Functions
-// * Inquires all over if add_more = true
-function inquireAgain() {
-	inquirer.prompt(employeeQuestions).then(answers => {
-		employeesInfo.push(answers);
 
-		if (answers.add_more) {
-			inquireAgain();
-		} else {
+// * Inquires the manager to generate a Manager Object with the answers
+async function inquireManager(employeesInfo) {
+	const inquire = await inquirer.prompt(managerQuestions);
+	const manager = new Manager(
+		inquire.name,
+		inquire.id,
+		inquire.email,
+		inquire.office
+	);
+
+	// The new Manager Object gets pushed into the employeesInfo
+	employeesInfo.push(manager);
+
+	// When the inquirer and the Object are dealt with, the role inquire runs
+	await inquireRole(employeesInfo);
+}
+
+// * Inquires the engineer to generate an Engineer Object with the answers
+async function inquireEngineer(employeesInfo) {
+	const inquire = await inquirer.prompt(engineerQuestions);
+	const engineer = new Engineer(
+		inquire.name,
+		inquire.id,
+		inquire.email,
+		inquire.github
+	);
+
+	// The new Engineer Object gets pushed into the employeesInfo
+	employeesInfo.push(engineer);
+
+	// When the inquirer and the Object are dealt with, the role inquire runs
+	await inquireRole(employeesInfo);
+}
+
+// * Inquires the intern to generate a Intern Object with the answers
+async function inquireIntern(employeesInfo) {
+	const inquire = await inquirer.prompt(internQuestions);
+	const intern = new Intern(
+		inquire.name,
+		inquire.id,
+		inquire.email,
+		inquire.school
+	);
+
+	// The new Intern Object gets pushed into the employeesInfo
+	employeesInfo.push(intern);
+
+	// When the inquirer and the Object are dealt with, the role inquire runs
+	await inquireRole(employeesInfo);
+}
+
+async function inquireRole(employeesInfo) {
+	const inquire = await inquirer.prompt(roleQuestion);
+	switch (inquire.role) {
+		case 'Engineer':
+			inquireEngineer(employeesInfo);
+			break;
+		case 'Intern':
+			inquireIntern(employeesInfo);
+			break;
+		case 'Finish building the team':
 			console.log(JSON.stringify(employeesInfo, null, ' '));
-		}
-	});
+			console.log('\n =============== Team Completed! ===============');
+			break;
+	}
 }
 
 // * Initialize the inquirer prompts
-async function init() {
-	const inquireManager = await inquirer.prompt(managerQuestions);
-	employeesInfo.push(inquireManager);
-
-	inquireAgain();
+function init() {
+	inquireManager(employeesInfo);
 }
 
 // # Initialisation
