@@ -22,9 +22,6 @@ const Engineer = require('../lib/Engineer');
 const Intern = require('../lib/Intern');
 const Manager = require('../lib/Manager');
 
-// # Array of employees info
-const employeesInfo = [];
-
 // # Functions
 
 // * Inquires the manager to generate a Manager Object with the answers
@@ -81,10 +78,4 @@ async function inquireRole(employeesArray) {
 	}
 }
 
-// * Initialise the inquirer prompts
-function init() {
-	inquireManager(employeesInfo);
-}
-
-// # Initialisation
-init();
+module.exports = inquireManager;
