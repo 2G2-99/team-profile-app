@@ -73,9 +73,23 @@ async function inquireRole(employeesArray) {
 			break;
 		case 'Finish building the team':
 			console.log(JSON.stringify(employeesArray, null, ' '));
-			console.log('\n ---------- Team Completed! ----------');
+			renderTeam(employeesArray);
+			console.log('\n ---------- Team Content Generated ----------');
 			break;
 	}
+}
+
+function renderTeam(employeesArray) {
+	const rendered = render(employeesArray);
+	writeRendered(outputPath, rendered);
+}
+
+function writeRendered(fileName, content) {
+	fs.writeFile(fileName, content, err => {
+		err
+			? console.error(chalk.red('\nERROR!'))
+			: console.log(chalk.green('\nSUCCESS!'));
+	});
 }
 
 module.exports = inquireManager;
