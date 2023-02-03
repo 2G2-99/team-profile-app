@@ -1,6 +1,5 @@
 // # Imports
 
-// const managerQuestions = require('./utils/inquirers/managerQuestions');
 const inquireManager = require('./utils/inquirerPrompts');
 
 // * Array of employees info
