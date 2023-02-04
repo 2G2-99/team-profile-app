@@ -2,7 +2,7 @@ const inquirer = require('inquirer');
 
 const roleQuestion = [
 	{
-		type: 'rawlist',
+		type: 'list',
 		name: 'role',
 		message: 'What is the role of the employee?',
 		choices: [
@@ -11,7 +11,7 @@ const roleQuestion = [
 			new inquirer.Separator(),
 			'Finish building the team',
 		],
-		default: 3,
+		default: 'Finish building the team',
 	},
 ];
 
