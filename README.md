@@ -1,6 +1,6 @@
 # Team Profile Builder
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT) ![GitHub last commit](https://img.shields.io/github/last-commit/2G2-99/README-generator)
 
 ## Description
 
@@ -19,15 +19,15 @@ An application where the manager (user) of a team introduces the employees infor
 
 ## Installation
 
-Just need to run 'npm i (npm install)' on the terminal to get all the module into the local machine.
+Just need to run "npm i" or "npm install" on the terminal to get all the module into the local machine.
 
 ## Usage
 
-On terminal run the command "node index (node index.js)" to initialize the program.
+On terminal run the command "node index" or "node index.js" to initialize the program.
 
 ## Credits
 
-[Catalin-Ioan Narita](https://stackoverflow.com/users/6612675/catalin-ioan-narita)for a solution in [stack overflow](https://stackoverflow.com/a/72518249/17607262)
+[Catalin-Ioan Narita](https://stackoverflow.com/users/6612675/catalin-ioan-narita) for a solution in [stack overflow](https://stackoverflow.com/a/72518249/17607262)
 
 [BoyePanthera](https://stackoverflow.com/users/10183031/boyepanthera) for a solution in [stack overflow](https://stackoverflow.com/a/67655994/17607262)
 
