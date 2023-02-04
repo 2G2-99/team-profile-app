@@ -1,0 +1,70 @@
+:root {
+	/* COLORS */
+	--lochmara: rgb(4, 136, 189);
+	--granny-apple: rgb(211, 247, 232);
+	--burnt-sienna: rgb(235, 97, 62);
+}
+
+* {
+	font-size: 16px;
+}
+
+body {
+	background-color: var(--granny-apple);
+}
+
+.team-heading {
+	background-color: var(--burnt-sienna);
+}
+
+.team-heading h1 {
+	color: var(--granny-apple);
+	font-size: 5em;
+}
+
+.card {
+	border: none;
+	box-shadow: 0.5em 0.5em 10px rgba(0, 0, 0, 0.7);
+	transition: all 0.5s;
+}
+
+/* CARDS ON HOVER */
+.card:hover {
+	box-shadow: none;
+	box-shadow: 0.5em 0.5em 10px rgba(0, 0, 0, 0.7);
+	transform: scale(1.025);
+	transition: all 0.5s;
+	transition-timing-function: ease-out;
+}
+
+.employee-card > .card-header {
+	background-color: var(--lochmara);
+	color: var(--granny-apple);
+}
+
+.employee-card > .card-body {
+	background-color: var(--burnt-sienna);
+	color: var(--lochmara);
+}
+
+ul,
+.list-group {
+	background-color: var(--granny-apple);
+}
+
+/* LINKS */
+
+/* unvisited link */
+a:link {
+	color: var(--burnt-sienna);
+}
+
+/* visited link */
+a:visited {
+	color: green;
+}
+
+/* selected link */
+a:active {
+	color: blue;
+}

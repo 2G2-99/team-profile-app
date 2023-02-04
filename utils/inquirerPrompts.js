@@ -6,9 +6,6 @@ const chalk = require('chalk');
 const path = require('path');
 const fs = require('fs');
 
-const OUTPUT_DIR = path.resolve(__dirname, 'output');
-const outputPath = path.join(OUTPUT_DIR, 'team.html');
-
 const render = require('../src/page-template');
 
 // * Importing que employee inquirers
@@ -21,6 +18,11 @@ const roleQuestion = require('./inquirers/roleQuestion');
 const Engineer = require('../lib/Engineer');
 const Intern = require('../lib/Intern');
 const Manager = require('../lib/Manager');
+
+// # Path
+
+const OUTPUT_DIR = path.resolve(__dirname, '../output');
+const outputPath = path.join(OUTPUT_DIR, 'team.html');
 
 // # Functions
 
@@ -38,9 +40,7 @@ async function inquireManager(employeesArray) {
 
 // * Inquires the engineer to generate an Engineer Object with the answers
 async function inquireEngineer(employeesArray) {
-	const { name, id, email, github } = await inquirer.prompt(
-		engineerQuestions
-	);
+	const { name, id, email, github } = await inquirer.prompt(engineerQuestions);
 	const engineer = new Engineer(name, id, email, github);
 
 	// The new Engineer Object gets pushed into the employeesArray
@@ -72,14 +72,14 @@ async function inquireRole(employeesArray) {
 			inquireIntern(employeesArray);
 			break;
 		case 'Finish building the team':
-			console.log(JSON.stringify(employeesArray, null, ' '));
 			renderTeam(employeesArray);
-			console.log('\n ---------- Team Content Generated ----------');
+			console.log('\n ---------- Team content being generated ----------\n');
 			break;
 	}
 }
 
 function renderTeam(employeesArray) {
+	console.log(employeesArray);
 	const rendered = render(employeesArray);
 	writeRendered(outputPath, rendered);
 }
@@ -87,8 +87,10 @@ function renderTeam(employeesArray) {
 function writeRendered(fileName, content) {
 	fs.writeFile(fileName, content, err => {
 		err
-			? console.error(chalk.red('\nERROR!'))
-			: console.log(chalk.green('\nSUCCESS!'));
+			? console.error(err)
+			: console.log(
+					`${chalk.green('SUCCESS!')}: File generated in\n${outputPath}`
+			  );
 	});
 }
 
